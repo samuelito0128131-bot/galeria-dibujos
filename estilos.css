@@ -6,65 +6,42 @@
 
 body {
   font-family: 'Comic Sans MS', 'Trebuchet MS', sans-serif;
-  background-color: #FFDE59;
-  background-image: radial-gradient(#00000022 2px, transparent 2px);
-  background-size: 20px 20px;
+  background-color: #1a1a1a;
   min-height: 100vh;
 }
 
 header {
-  text-align: center;
-  padding: 40px 20px;
+  position: relative;
+}
+
+.imagen-hero {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.contenido-header {
+  position: absolute;
+  top: 50%;
+  right: 60px;
+  transform: translateY(-50%);
+  text-align: right;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 25px;
 }
 
 header h1 {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
   font-family: 'Bangers', cursive;
-  font-size: 4.5rem;
-  letter-spacing: 3px;
-  color: #FF3366;
-  -webkit-text-stroke: 3px #1a1a1a;
+  font-size: 2.4rem;
+  letter-spacing: 1px;
+  color: #FFDE59;
   text-shadow:
-    4px 4px 0 #4DCCFF,
-    8px 8px 0 #1a1a1a;
-  transform: rotate(-3deg) skewX(-5deg);
-}
-
-.dino {
-  display: inline-block;
-  font-size: 3.5rem;
-  -webkit-text-stroke: 0;
-  text-shadow: none;
-  animation: caminar 0.6s ease-in-out infinite;
-}
-
-@keyframes caminar {
-  0%, 100% { transform: translateY(0) rotate(-5deg); }
-  50% { transform: translateY(-12px) rotate(5deg); }
-}
-
-header p {
-  margin-top: 20px;
-  font-size: 1.3rem;
-  font-weight: bold;
-  color: #1a1a1a;
-  background: #4DCCFF;
-  display: inline-block;
-  padding: 8px 20px;
-  border: 4px solid #1a1a1a;
-  border-radius: 50px;
-  transform: rotate(1deg);
-}
-
-main {
-  padding: 20px;
-}
-
-.subir-contenedor {
-  text-align: center;
-  margin: 30px 0;
+    2px 2px 0 #000000,
+    0 0 20px rgba(0,0,0,0.9);
+  animation: saltar 1.2s ease-in-out infinite;
 }
 
 .boton-subir {
@@ -74,16 +51,29 @@ main {
   font-size: 1.2rem;
   font-weight: bold;
   padding: 16px 32px;
-  border: 5px solid #1a1a1a;
+  border: 5px solid #ffffff;
   border-radius: 15px;
   cursor: pointer;
-  box-shadow: 6px 6px 0px #1a1a1a;
+  box-shadow: 6px 6px 0px #000000;
   transition: transform 0.15s, box-shadow 0.15s;
+  animation: saltar 1.2s ease-in-out infinite;
+  animation-delay: 0.2s;
 }
 
 .boton-subir:hover {
   transform: translate(3px, 3px);
-  box-shadow: 3px 3px 0px #1a1a1a;
+  box-shadow: 3px 3px 0px #000000;
+  animation-play-state: paused;
+}
+
+@keyframes saltar {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+main {
+  padding: 40px 20px;
+  background-color: #1a1a1a;
 }
 
 .galeria {
@@ -92,17 +82,34 @@ main {
   gap: 30px;
   justify-content: center;
   max-width: 1000px;
-  margin: 40px auto 0;
+  margin: 0 auto;
+  padding-top: 20px;
+}
+
+.galeria::before {
+  content: "🌿 GALERÍA DE TESOROS 🌿";
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-family: 'Bangers', cursive;
+  font-size: 2rem;
+  letter-spacing: 2px;
+  color: #90EE90;
+  text-shadow: 2px 2px 0 #000000;
+  margin-bottom: 20px;
 }
 
 .tarjeta {
-  background: white;
-  padding: 12px;
-  border: 5px solid #1a1a1a;
-  border-radius: 15px;
-  box-shadow: 6px 6px 0px #1a1a1a;
+  background: linear-gradient(145deg, #2b2116, #1a140d);
+  padding: 14px;
+  border: 4px solid #C9A96A;
+  border-radius: 10px;
+  box-shadow:
+    0 0 0 3px #1a1a1a,
+    6px 6px 15px rgba(0,0,0,0.6);
   width: 220px;
-  transition: transform 0.2s;
+  transition: transform 0.25s, box-shadow 0.25s;
+  position: relative;
 }
 
 .tarjeta:nth-child(odd) {
@@ -114,12 +121,58 @@ main {
 }
 
 .tarjeta:hover {
-  transform: scale(1.05) rotate(0deg);
+  transform: scale(1.06) rotate(0deg);
+  box-shadow:
+    0 0 0 3px #90EE90,
+    0 0 25px rgba(144, 238, 144, 0.6);
 }
 
 .tarjeta img {
   width: 100%;
-  border-radius: 8px;
-  border: 3px solid #1a1a1a;
+  border-radius: 6px;
+  border: 2px solid #C9A96A;
   display: block;
+}
+
+@media (max-width: 768px) {
+  .contenido-header {
+    position: absolute;
+    top: auto;
+    bottom: 20px;
+    right: 15px;
+    left: 15px;
+    transform: none;
+    text-align: center;
+    align-items: center;
+    max-width: none;
+  }
+
+  header h1 {
+    font-size: 1.4rem;
+  }
+
+  .boton-subir {
+    font-size: 1rem;
+    padding: 12px 24px;
+  }
+
+  .galeria::before {
+    font-size: 1.4rem;
+  }
+
+  .tarjeta {
+    width: 45%;
+    max-width: 160px;
+  }
+}
+
+@media (max-width: 420px) {
+  .tarjeta {
+    width: 100%;
+    max-width: 220px;
+  }
+
+  header h1 {
+    font-size: 1.2rem;
+  }
 }
