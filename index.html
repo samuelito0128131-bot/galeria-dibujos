@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>La Galería de Dibujos</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+  <header>
+    <h1>🎨 La Galería de Dibujos</h1>
+    <p>¡Aquí guardo mis mejores creaciones!</p>
+  </header>
+
+  <main>
+    <div class="subir-contenedor">
+      <label for="subirImagen" class="boton-subir">📤 Subir un dibujo</label>
+      <input type="file" id="subirImagen" accept="image/*" multiple hidden>
+    </div>
+
+    <div class="galeria" id="galeria">
+      <!-- Aquí irán los dibujos -->
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

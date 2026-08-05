@@ -1,0 +1,90 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Trebuchet MS', sans-serif;
+  background: linear-gradient(135deg, #FFD93D, #FF6B6B, #6BCB77, #4D96FF);
+  background-size: 400% 400%;
+  animation: fondoAnimado 15s ease infinite;
+  min-height: 100vh;
+}
+
+@keyframes fondoAnimado {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+header {
+  text-align: center;
+  padding: 40px 20px;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+header h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+header p {
+  font-size: 1.2rem;
+}
+
+main {
+  padding: 20px;
+}
+
+.galeria {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.subir-contenedor {
+  text-align: center;
+  margin: 30px 0;
+}
+
+.boton-subir {
+  display: inline-block;
+  background-color: #FF6B6B;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 15px 30px;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.boton-subir:hover {
+  background-color: #ff4f4f;
+  transform: scale(1.05);
+}
+
+.tarjeta {
+  background: white;
+  padding: 10px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  width: 220px;
+  transition: transform 0.2s;
+}
+
+.tarjeta:hover {
+  transform: scale(1.03) rotate(-1deg);
+}
+
+.tarjeta img {
+  width: 100%;
+  border-radius: 10px;
+  display: block;
+}
