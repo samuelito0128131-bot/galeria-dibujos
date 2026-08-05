@@ -5,46 +5,61 @@
 }
 
 body {
-  font-family: 'Trebuchet MS', sans-serif;
-  background: linear-gradient(135deg, #FFD93D, #FF6B6B, #6BCB77, #4D96FF);
-  background-size: 400% 400%;
-  animation: fondoAnimado 15s ease infinite;
+  font-family: 'Comic Sans MS', 'Trebuchet MS', sans-serif;
+  background-color: #FFDE59;
+  background-image: radial-gradient(#00000022 2px, transparent 2px);
+  background-size: 20px 20px;
   min-height: 100vh;
-}
-
-@keyframes fondoAnimado {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
 }
 
 header {
   text-align: center;
   padding: 40px 20px;
-  color: white;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 }
 
 header h1 {
-  font-size: 3rem;
-  margin-bottom: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Bangers', cursive;
+  font-size: 4.5rem;
+  letter-spacing: 3px;
+  color: #FF3366;
+  -webkit-text-stroke: 3px #1a1a1a;
+  text-shadow:
+    4px 4px 0 #4DCCFF,
+    8px 8px 0 #1a1a1a;
+  transform: rotate(-3deg) skewX(-5deg);
+}
+
+.dino {
+  display: inline-block;
+  font-size: 3.5rem;
+  -webkit-text-stroke: 0;
+  text-shadow: none;
+  animation: caminar 0.6s ease-in-out infinite;
+}
+
+@keyframes caminar {
+  0%, 100% { transform: translateY(0) rotate(-5deg); }
+  50% { transform: translateY(-12px) rotate(5deg); }
 }
 
 header p {
-  font-size: 1.2rem;
+  margin-top: 20px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #1a1a1a;
+  background: #4DCCFF;
+  display: inline-block;
+  padding: 8px 20px;
+  border: 4px solid #1a1a1a;
+  border-radius: 50px;
+  transform: rotate(1deg);
 }
 
 main {
   padding: 20px;
-}
-
-.galeria {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-  max-width: 1000px;
-  margin: 0 auto;
 }
 
 .subir-contenedor {
@@ -54,37 +69,57 @@ main {
 
 .boton-subir {
   display: inline-block;
-  background-color: #FF6B6B;
+  background-color: #FF3366;
   color: white;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: bold;
-  padding: 15px 30px;
-  border-radius: 50px;
+  padding: 16px 32px;
+  border: 5px solid #1a1a1a;
+  border-radius: 15px;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  transition: transform 0.2s, background-color 0.2s;
+  box-shadow: 6px 6px 0px #1a1a1a;
+  transition: transform 0.15s, box-shadow 0.15s;
 }
 
 .boton-subir:hover {
-  background-color: #ff4f4f;
-  transform: scale(1.05);
+  transform: translate(3px, 3px);
+  box-shadow: 3px 3px 0px #1a1a1a;
+}
+
+.galeria {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+  max-width: 1000px;
+  margin: 40px auto 0;
 }
 
 .tarjeta {
   background: white;
-  padding: 10px;
+  padding: 12px;
+  border: 5px solid #1a1a1a;
   border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  box-shadow: 6px 6px 0px #1a1a1a;
   width: 220px;
   transition: transform 0.2s;
 }
 
+.tarjeta:nth-child(odd) {
+  transform: rotate(-2deg);
+}
+
+.tarjeta:nth-child(even) {
+  transform: rotate(2deg);
+}
+
 .tarjeta:hover {
-  transform: scale(1.03) rotate(-1deg);
+  transform: scale(1.05) rotate(0deg);
 }
 
 .tarjeta img {
   width: 100%;
-  border-radius: 10px;
+  border-radius: 8px;
+  border: 3px solid #1a1a1a;
   display: block;
 }
