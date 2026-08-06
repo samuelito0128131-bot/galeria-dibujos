@@ -44,6 +44,13 @@ header h1 {
   animation: saltar 1.2s ease-in-out infinite;
 }
 
+.botones-subir {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-end;
+}
+
 /* Botón "mordida de dinosaurio" */
 .boton-subir {
   position: relative;
@@ -77,6 +84,15 @@ header h1 {
   transform: scale(1.06);
   filter: brightness(1.15);
   animation-play-state: paused;
+}
+
+/* Variante para historietas: tono "fósil" ámbar */
+.boton-historieta {
+  background: linear-gradient(160deg, #C9A96A, #8B6914);
+  color: #1a1a1a;
+  font-size: 1.15rem;
+  padding: 16px 28px 20px;
+  animation-delay: 0.35s;
 }
 
 @keyframes saltar {
@@ -147,6 +163,27 @@ main {
   display: block;
 }
 
+.tarjeta-historieta {
+  cursor: pointer;
+}
+
+.badge-libro {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  background: #C9A96A;
+  border: 3px solid #1a1a1a;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.5);
+  z-index: 5;
+}
+
 /* Botón eliminar */
 .btn-eliminar {
   position: absolute;
@@ -171,6 +208,91 @@ main {
 .btn-eliminar:hover {
   background: #cc1f4d;
   transform: scale(1.15) rotate(10deg);
+}
+
+/* Modo libro (modal) */
+.modal-libro {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.modal-libro.oculto {
+  display: none;
+}
+
+.libro-contenedor {
+  position: relative;
+  background: linear-gradient(145deg, #2b2116, #1a140d);
+  border: 5px solid #C9A96A;
+  border-radius: 14px;
+  padding: 30px;
+  max-width: 90%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+#tituloLibro {
+  font-family: 'Bangers', cursive;
+  color: #FFDE59;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 0 #000;
+}
+
+#paginaActual {
+  max-width: 100%;
+  max-height: 60vh;
+  border-radius: 8px;
+  border: 3px solid #C9A96A;
+}
+
+.controles-libro {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: #FFDE59;
+  font-family: 'Bangers', cursive;
+  font-size: 1.2rem;
+}
+
+.controles-libro button {
+  background: #3CB371;
+  color: white;
+  border: 3px solid #1a1a1a;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.controles-libro button:hover {
+  transform: scale(1.1);
+}
+
+.cerrar-libro {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #FF3366;
+  color: white;
+  border: 3px solid #1a1a1a;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  font-size: 1rem;
 }
 
 @media (max-width: 768px) {
@@ -202,6 +324,10 @@ main {
   .tarjeta {
     width: 45%;
     max-width: 160px;
+  }
+
+  .libro-contenedor {
+    padding: 20px;
   }
 }
 
