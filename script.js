@@ -34,14 +34,34 @@ const galeria = document.getElementById('galeria');
 // ============================
 // Crear una tarjeta de dibujo en la galería
 // ============================
-function crearTarjeta(url) {
+function crearTarjeta(id, url) {
   const tarjeta = document.createElement('div');
   tarjeta.className = 'tarjeta';
 
   const img = document.createElement('img');
   img.src = url;
 
+  const botonEliminar = document.createElement('button');
+  botonEliminar.className = 'btn-eliminar';
+  botonEliminar.innerHTML = '🗑️';
+  botonEliminar.title = 'Eliminar dibujo';
+
+  botonEliminar.addEventListener('click', function () {
+    const confirmar = confirm('¿Seguro que quieres eliminar este dibujo?');
+    if (!confirmar) return;
+
+    // Borra el registro en Firestore
+    db.collection('dibujos').doc(id).delete().then(function () {
+      // Borra el archivo en Storage usando su URL
+      return storage.refFromURL(url).delete();
+    }).catch(function (error) {
+      console.error('Error al eliminar:', error);
+      alert('Hubo un problema al eliminar el dibujo.');
+    });
+  });
+
   tarjeta.appendChild(img);
+  tarjeta.appendChild(botonEliminar);
   galeria.appendChild(tarjeta);
 }
 
@@ -52,14 +72,12 @@ inputImagen.addEventListener('change', function (evento) {
   const archivos = evento.target.files;
 
   for (const archivo of archivos) {
-    // Nombre único para evitar que se sobreescriban archivos
     const nombreArchivo = Date.now() + '_' + archivo.name;
     const referencia = storage.ref('dibujos/' + nombreArchivo);
 
     referencia.put(archivo).then(function (snapshot) {
       return snapshot.ref.getDownloadURL();
     }).then(function (url) {
-      // Guardamos el link de la imagen en Firestore
       return db.collection('dibujos').add({
         url: url,
         fecha: firebase.firestore.FieldValue.serverTimestamp()
@@ -75,9 +93,9 @@ inputImagen.addEventListener('change', function (evento) {
 // Cargar todos los dibujos guardados al abrir la página
 // ============================
 db.collection('dibujos').orderBy('fecha', 'desc').onSnapshot(function (snapshot) {
-  galeria.innerHTML = ''; // limpiar galería antes de recargar
+  galeria.innerHTML = '';
   snapshot.forEach(function (doc) {
     const datos = doc.data();
-    crearTarjeta(datos.url);
+    crearTarjeta(doc.id, datos.url);
   });
 });

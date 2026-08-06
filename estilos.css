@@ -44,25 +44,38 @@ header h1 {
   animation: saltar 1.2s ease-in-out infinite;
 }
 
+/* Botón "mordida de dinosaurio" */
 .boton-subir {
-  display: inline-block;
-  background-color: #FF3366;
-  color: white;
-  font-size: 1.2rem;
-  font-weight: bold;
-  padding: 16px 32px;
-  border: 5px solid #ffffff;
-  border-radius: 15px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(160deg, #3CB371, #2E8B57);
+  color: #FFDE59;
+  font-family: 'Bangers', cursive;
+  font-size: 1.3rem;
+  letter-spacing: 1px;
+  padding: 20px 34px 24px;
+  border: none;
   cursor: pointer;
-  box-shadow: 6px 6px 0px #000000;
-  transition: transform 0.15s, box-shadow 0.15s;
+  clip-path: polygon(
+    0% 18%, 5% 2%, 10% 18%, 15% 2%, 20% 18%, 25% 2%, 30% 18%, 35% 2%,
+    40% 18%, 45% 2%, 50% 18%, 55% 2%, 60% 18%, 65% 2%, 70% 18%, 75% 2%,
+    80% 18%, 85% 2%, 90% 18%, 95% 2%, 100% 18%,
+    100% 82%, 95% 98%, 90% 82%, 85% 98%, 80% 82%, 75% 98%, 70% 82%, 65% 98%,
+    60% 82%, 55% 98%, 50% 82%, 45% 98%, 40% 82%, 35% 98%, 30% 82%, 25% 98%,
+    20% 82%, 15% 98%, 10% 82%, 5% 98%, 0% 82%
+  );
+  box-shadow: 0 6px 15px rgba(0,0,0,0.6);
+  text-shadow: 1px 1px 0 #000;
   animation: saltar 1.2s ease-in-out infinite;
   animation-delay: 0.2s;
+  transition: transform 0.15s, filter 0.15s;
 }
 
 .boton-subir:hover {
-  transform: translate(3px, 3px);
-  box-shadow: 3px 3px 0px #000000;
+  transform: scale(1.06);
+  filter: brightness(1.15);
   animation-play-state: paused;
 }
 
@@ -134,6 +147,32 @@ main {
   display: block;
 }
 
+/* Botón eliminar */
+.btn-eliminar {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #FF3366;
+  border: 3px solid #1a1a1a;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.5);
+  transition: transform 0.15s, background-color 0.15s;
+  z-index: 5;
+}
+
+.btn-eliminar:hover {
+  background: #cc1f4d;
+  transform: scale(1.15) rotate(10deg);
+}
+
 @media (max-width: 768px) {
   .contenido-header {
     position: absolute;
@@ -152,8 +191,8 @@ main {
   }
 
   .boton-subir {
-    font-size: 1rem;
-    padding: 12px 24px;
+    font-size: 1.05rem;
+    padding: 16px 24px 20px;
   }
 
   .galeria::before {
