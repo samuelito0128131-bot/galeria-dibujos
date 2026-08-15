@@ -33,7 +33,7 @@ let dibujosCache = [];
 let animacionesCache = [];
 
 // ============================
-// Render combinado de la galería
+// Render combinado de la galería (más antiguo primero)
 // ============================
 function renderGaleria() {
   const todos = [...dibujosCache, ...animacionesCache];
@@ -41,7 +41,7 @@ function renderGaleria() {
   todos.sort(function (a, b) {
     const fechaA = a.datos.fecha ? a.datos.fecha.toMillis() : 0;
     const fechaB = b.datos.fecha ? b.datos.fecha.toMillis() : 0;
-    return fechaB - fechaA;
+    return fechaA - fechaB;
   });
 
   galeria.innerHTML = '';
