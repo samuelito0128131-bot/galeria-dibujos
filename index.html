@@ -28,6 +28,19 @@
     </div>
   </main>
 
+  <!-- Modal visor de dibujos (modo libro) -->
+  <div id="modalVisor" class="modal-libro oculto">
+    <div class="libro-contenedor">
+      <button id="cerrarVisor" class="cerrar-libro">✖</button>
+      <img id="imagenVisor" src="" alt="Dibujo">
+      <div class="controles-libro">
+        <button id="visorAnterior">◀</button>
+        <span id="contadorVisor"></span>
+        <button id="visorSiguiente">▶</button>
+      </div>
+    </div>
+  </div>
+
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
