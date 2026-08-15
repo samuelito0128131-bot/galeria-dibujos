@@ -162,6 +162,47 @@ main {
   display: block;
 }
 
+.contenedor-video {
+  position: relative;
+}
+
+/* Burbuja de diálogo estilo cómic */
+.burbuja {
+  position: relative;
+  background: #fff;
+  color: #1a1a1a;
+  font-family: 'Bangers', cursive;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  padding: 10px 14px;
+  border: 3px solid #1a1a1a;
+  border-radius: 16px;
+  margin-bottom: 8px;
+  text-align: center;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.4);
+}
+
+.burbuja::after {
+  content: "";
+  position: absolute;
+  left: 30px;
+  bottom: -14px;
+  border: 10px solid transparent;
+  border-top-color: #1a1a1a;
+  border-bottom: 0;
+}
+
+.burbuja::before {
+  content: "";
+  position: absolute;
+  left: 33px;
+  bottom: -10px;
+  border: 8px solid transparent;
+  border-top-color: #fff;
+  border-bottom: 0;
+  z-index: 1;
+}
+
 .badge-animacion {
   position: absolute;
   top: -10px;
