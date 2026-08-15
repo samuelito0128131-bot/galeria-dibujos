@@ -88,7 +88,7 @@ function crearTarjeta(id, url) {
 }
 
 // ============================
-// Tarjeta de animación (video de "Entre Bestias")
+// Tarjeta de animación (video de "Entre Bestias" + burbuja)
 // ============================
 function crearTarjetaAnimacion(id, datos) {
   const tarjeta = document.createElement('div');
@@ -98,10 +98,22 @@ function crearTarjetaAnimacion(id, datos) {
   badge.className = 'badge-animacion';
   badge.innerHTML = '🎬';
 
+  const contenedorVideo = document.createElement('div');
+  contenedorVideo.className = 'contenedor-video';
+
+  if (datos.frase) {
+    const burbuja = document.createElement('div');
+    burbuja.className = 'burbuja';
+    burbuja.textContent = datos.frase;
+    contenedorVideo.appendChild(burbuja);
+  }
+
   const video = document.createElement('video');
   video.src = datos.url;
   video.controls = true;
   video.playsInline = true;
+
+  contenedorVideo.appendChild(video);
 
   const botonEliminar = document.createElement('button');
   botonEliminar.className = 'btn-eliminar';
@@ -121,7 +133,7 @@ function crearTarjetaAnimacion(id, datos) {
   });
 
   tarjeta.appendChild(badge);
-  tarjeta.appendChild(video);
+  tarjeta.appendChild(contenedorVideo);
   tarjeta.appendChild(botonEliminar);
   galeria.appendChild(tarjeta);
 }
@@ -163,6 +175,8 @@ inputAnimacion.addEventListener('change', function (evento) {
   const archivo = evento.target.files[0];
   if (!archivo) return;
 
+  const frase = prompt('¿Qué dice el personaje en esta escena? (déjalo vacío si no quieres burbuja)', '');
+
   const nombreArchivo = Date.now() + '_' + archivo.name;
   const referencia = storage.ref('animaciones/' + nombreArchivo);
 
@@ -171,6 +185,7 @@ inputAnimacion.addEventListener('change', function (evento) {
   }).then(function (url) {
     return db.collection('animaciones').add({
       url: url,
+      frase: frase || '',
       fecha: firebase.firestore.FieldValue.serverTimestamp()
     });
   }).catch(function (error) {
