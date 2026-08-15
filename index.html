@@ -16,31 +16,17 @@
         <label for="subirImagen" class="boton-subir">🦖 Subir un dibujo</label>
         <input type="file" id="subirImagen" accept="image/*" multiple hidden>
 
-        <label for="subirHistorieta" class="boton-subir boton-historieta">📖 Subir historieta</label>
-        <input type="file" id="subirHistorieta" accept="image/*" multiple hidden>
+        <label for="subirAnimacion" class="boton-subir boton-animacion">🎬 Subir a Entre Bestias</label>
+        <input type="file" id="subirAnimacion" accept="video/*" hidden>
       </div>
     </div>
   </header>
 
   <main>
     <div class="galeria" id="galeria">
-      <!-- Aquí irán los dibujos e historietas -->
+      <!-- Aquí irán los dibujos y animaciones -->
     </div>
   </main>
-
-  <!-- Modal del modo libro -->
-  <div id="modalLibro" class="modal-libro oculto">
-    <div class="libro-contenedor">
-      <button id="cerrarLibro" class="cerrar-libro">✖</button>
-      <h2 id="tituloLibro"></h2>
-      <img id="paginaActual" src="" alt="Página de la historieta">
-      <div class="controles-libro">
-        <button id="paginaAnterior">◀</button>
-        <span id="contadorPaginas"></span>
-        <button id="paginaSiguiente">▶</button>
-      </div>
-    </div>
-  </div>
 
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
