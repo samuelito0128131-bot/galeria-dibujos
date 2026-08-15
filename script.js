@@ -30,13 +30,13 @@ document.querySelectorAll('.boton-subir').forEach(function (boton) {
 // ============================
 const galeria = document.getElementById('galeria');
 let dibujosCache = [];
-let historietasCache = [];
+let animacionesCache = [];
 
 // ============================
 // Render combinado de la galería
 // ============================
 function renderGaleria() {
-  const todos = [...dibujosCache, ...historietasCache];
+  const todos = [...dibujosCache, ...animacionesCache];
 
   todos.sort(function (a, b) {
     const fechaA = a.datos.fecha ? a.datos.fecha.toMillis() : 0;
@@ -47,8 +47,8 @@ function renderGaleria() {
   galeria.innerHTML = '';
 
   todos.forEach(function (item) {
-    if (item.tipo === 'historieta') {
-      crearTarjetaHistorieta(item.id, item.datos);
+    if (item.tipo === 'animacion') {
+      crearTarjetaAnimacion(item.id, item.datos);
     } else {
       crearTarjeta(item.id, item.datos.url);
     }
@@ -88,46 +88,40 @@ function crearTarjeta(id, url) {
 }
 
 // ============================
-// Tarjeta de historieta (portada)
+// Tarjeta de animación (video de "Entre Bestias")
 // ============================
-function crearTarjetaHistorieta(id, datos) {
+function crearTarjetaAnimacion(id, datos) {
   const tarjeta = document.createElement('div');
-  tarjeta.className = 'tarjeta tarjeta-historieta';
+  tarjeta.className = 'tarjeta';
 
   const badge = document.createElement('div');
-  badge.className = 'badge-libro';
-  badge.innerHTML = '📖';
+  badge.className = 'badge-animacion';
+  badge.innerHTML = '🎬';
 
-  const img = document.createElement('img');
-  img.src = datos.paginas[0];
+  const video = document.createElement('video');
+  video.src = datos.url;
+  video.controls = true;
+  video.playsInline = true;
 
   const botonEliminar = document.createElement('button');
   botonEliminar.className = 'btn-eliminar';
   botonEliminar.innerHTML = '🗑️';
-  botonEliminar.title = 'Eliminar historieta';
+  botonEliminar.title = 'Eliminar animación';
 
-  botonEliminar.addEventListener('click', function (evento) {
-    evento.stopPropagation();
-    const confirmar = confirm('¿Seguro que quieres eliminar esta historieta completa?');
+  botonEliminar.addEventListener('click', function () {
+    const confirmar = confirm('¿Seguro que quieres eliminar esta animación?');
     if (!confirmar) return;
 
-    db.collection('historietas').doc(id).delete().then(function () {
-      const borrados = datos.paginas.map(function (url) {
-        return storage.refFromURL(url).delete();
-      });
-      return Promise.all(borrados);
+    db.collection('animaciones').doc(id).delete().then(function () {
+      return storage.refFromURL(datos.url).delete();
     }).catch(function (error) {
-      console.error('Error al eliminar la historieta:', error);
-      alert('Hubo un problema al eliminar la historieta.');
+      console.error('Error al eliminar:', error);
+      alert('Hubo un problema al eliminar la animación.');
     });
   });
 
-  tarjeta.addEventListener('click', function () {
-    abrirLibro(datos.titulo || 'Historieta', datos.paginas);
-  });
-
   tarjeta.appendChild(badge);
-  tarjeta.appendChild(img);
+  tarjeta.appendChild(video);
   tarjeta.appendChild(botonEliminar);
   galeria.appendChild(tarjeta);
 }
@@ -161,89 +155,34 @@ inputImagen.addEventListener('change', function (evento) {
 });
 
 // ============================
-// Subir una historieta (varias páginas)
+// Subir una animación (video de "Entre Bestias")
 // ============================
-const inputHistorieta = document.getElementById('subirHistorieta');
+const inputAnimacion = document.getElementById('subirAnimacion');
 
-inputHistorieta.addEventListener('change', function (evento) {
-  const archivos = Array.from(evento.target.files);
-  if (archivos.length === 0) return;
+inputAnimacion.addEventListener('change', function (evento) {
+  const archivo = evento.target.files[0];
+  if (!archivo) return;
 
-  const titulo = prompt('¿Cómo se llama tu historieta?', 'Mi historieta');
-  if (titulo === null) {
-    evento.target.value = '';
-    return;
-  }
+  const nombreArchivo = Date.now() + '_' + archivo.name;
+  const referencia = storage.ref('animaciones/' + nombreArchivo);
 
-  const subidas = archivos.map(function (archivo, index) {
-    const nombreArchivo = Date.now() + '_' + index + '_' + archivo.name;
-    const referencia = storage.ref('historietas/' + nombreArchivo);
-    return referencia.put(archivo).then(function (snapshot) {
-      return snapshot.ref.getDownloadURL();
-    });
-  });
-
-  Promise.all(subidas).then(function (urls) {
-    return db.collection('historietas').add({
-      titulo: titulo,
-      paginas: urls,
+  referencia.put(archivo).then(function (snapshot) {
+    return snapshot.ref.getDownloadURL();
+  }).then(function (url) {
+    return db.collection('animaciones').add({
+      url: url,
       fecha: firebase.firestore.FieldValue.serverTimestamp()
     });
   }).catch(function (error) {
-    console.error('Error al subir la historieta:', error);
-    alert('Hubo un problema al subir la historieta. Intenta de nuevo.');
+    console.error('Error al subir la animación:', error);
+    alert('Hubo un problema al subir la animación. Intenta de nuevo.');
   });
 
   evento.target.value = '';
 });
 
 // ============================
-// Modo libro (visor de páginas)
-// ============================
-const modalLibro = document.getElementById('modalLibro');
-const tituloLibro = document.getElementById('tituloLibro');
-const paginaActualImg = document.getElementById('paginaActual');
-const contadorPaginas = document.getElementById('contadorPaginas');
-const botonCerrarLibro = document.getElementById('cerrarLibro');
-const botonAnterior = document.getElementById('paginaAnterior');
-const botonSiguiente = document.getElementById('paginaSiguiente');
-
-let libroPaginas = [];
-let paginaIndex = 0;
-
-function abrirLibro(titulo, paginas) {
-  libroPaginas = paginas;
-  paginaIndex = 0;
-  tituloLibro.textContent = titulo;
-  actualizarPagina();
-  modalLibro.classList.remove('oculto');
-}
-
-function actualizarPagina() {
-  paginaActualImg.src = libroPaginas[paginaIndex];
-  contadorPaginas.textContent = (paginaIndex + 1) + ' / ' + libroPaginas.length;
-}
-
-botonAnterior.addEventListener('click', function () {
-  if (paginaIndex > 0) {
-    paginaIndex--;
-    actualizarPagina();
-  }
-});
-
-botonSiguiente.addEventListener('click', function () {
-  if (paginaIndex < libroPaginas.length - 1) {
-    paginaIndex++;
-    actualizarPagina();
-  }
-});
-
-botonCerrarLibro.addEventListener('click', function () {
-  modalLibro.classList.add('oculto');
-});
-
-// ============================
-// Cargar dibujos e historietas desde Firebase
+// Cargar dibujos y animaciones desde Firebase
 // ============================
 db.collection('dibujos').orderBy('fecha', 'desc').onSnapshot(function (snapshot) {
   dibujosCache = snapshot.docs.map(function (doc) {
@@ -252,9 +191,9 @@ db.collection('dibujos').orderBy('fecha', 'desc').onSnapshot(function (snapshot)
   renderGaleria();
 });
 
-db.collection('historietas').orderBy('fecha', 'desc').onSnapshot(function (snapshot) {
-  historietasCache = snapshot.docs.map(function (doc) {
-    return { id: doc.id, tipo: 'historieta', datos: doc.data() };
+db.collection('animaciones').orderBy('fecha', 'desc').onSnapshot(function (snapshot) {
+  animacionesCache = snapshot.docs.map(function (doc) {
+    return { id: doc.id, tipo: 'animacion', datos: doc.data() };
   });
   renderGaleria();
 });
