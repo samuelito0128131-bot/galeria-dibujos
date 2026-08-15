@@ -51,7 +51,6 @@ header h1 {
   align-items: flex-end;
 }
 
-/* Botón "mordida de dinosaurio" */
 .boton-subir {
   position: relative;
   display: inline-flex;
@@ -86,7 +85,6 @@ header h1 {
   animation-play-state: paused;
 }
 
-/* Variante para historietas: tono "fósil" ámbar */
 .boton-historieta {
   background: linear-gradient(160deg, #C9A96A, #8B6914);
   color: #1a1a1a;
@@ -184,7 +182,6 @@ main {
   z-index: 5;
 }
 
-/* Botón eliminar */
 .btn-eliminar {
   position: absolute;
   top: -12px;
@@ -210,7 +207,6 @@ main {
   transform: scale(1.15) rotate(10deg);
 }
 
-/* Modo libro (modal) */
 .modal-libro {
   position: fixed;
   top: 0;
