@@ -100,10 +100,42 @@ header h1 {
 
 main {
   padding: 40px 20px;
-  background-color: #1a1a1a;
+  background-color: #12141c;
+  background-image:
+    linear-gradient(to bottom, rgba(18,20,28,0.4), rgba(18,20,28,0.95) 60%),
+    repeating-linear-gradient(
+      to right,
+      #1c2030 0px, #1c2030 60px,
+      #171a26 60px, #171a26 130px,
+      #20253a 130px, #20253a 190px,
+      #171a26 190px, #171a26 260px
+    );
+  background-size: 100% 100%, 100% 320px;
+  background-position: top, bottom;
+  background-repeat: no-repeat, repeat-x;
+  position: relative;
+}
+
+main::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 320px;
+  background-image:
+    radial-gradient(circle, #FFDE59 2px, transparent 2px),
+    radial-gradient(circle, #FF6B35 2px, transparent 2px);
+  background-size: 90px 60px, 140px 90px;
+  background-position: 20px 180px, 70px 220px;
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .galeria {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-wrap: wrap;
   gap: 30px;
