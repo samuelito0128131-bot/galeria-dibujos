@@ -31,6 +31,7 @@ document.querySelectorAll('.boton-subir').forEach(function (boton) {
 const galeria = document.getElementById('galeria');
 let dibujosCache = [];
 let animacionesCache = [];
+let dibujosOrdenados = []; // solo urls, en el mismo orden que se muestran
 
 // ============================
 // Render combinado de la galería (más antiguo primero)
@@ -45,22 +46,25 @@ function renderGaleria() {
   });
 
   galeria.innerHTML = '';
+  dibujosOrdenados = [];
 
   todos.forEach(function (item) {
     if (item.tipo === 'animacion') {
       crearTarjetaAnimacion(item.id, item.datos);
     } else {
-      crearTarjeta(item.id, item.datos.url);
+      dibujosOrdenados.push(item.datos.url);
+      const indice = dibujosOrdenados.length - 1;
+      crearTarjeta(item.id, item.datos.url, indice);
     }
   });
 }
 
 // ============================
-// Tarjeta de dibujo individual
+// Tarjeta de dibujo individual (clic abre el visor)
 // ============================
-function crearTarjeta(id, url) {
+function crearTarjeta(id, url, indice) {
   const tarjeta = document.createElement('div');
-  tarjeta.className = 'tarjeta';
+  tarjeta.className = 'tarjeta tarjeta-clicable';
 
   const img = document.createElement('img');
   img.src = url;
@@ -70,7 +74,8 @@ function crearTarjeta(id, url) {
   botonEliminar.innerHTML = '🗑️';
   botonEliminar.title = 'Eliminar dibujo';
 
-  botonEliminar.addEventListener('click', function () {
+  botonEliminar.addEventListener('click', function (evento) {
+    evento.stopPropagation();
     const confirmar = confirm('¿Seguro que quieres eliminar este dibujo?');
     if (!confirmar) return;
 
@@ -80,6 +85,10 @@ function crearTarjeta(id, url) {
       console.error('Error al eliminar:', error);
       alert('Hubo un problema al eliminar el dibujo.');
     });
+  });
+
+  tarjeta.addEventListener('click', function () {
+    abrirVisor(indice);
   });
 
   tarjeta.appendChild(img);
@@ -194,6 +203,47 @@ inputAnimacion.addEventListener('change', function (evento) {
   });
 
   evento.target.value = '';
+});
+
+// ============================
+// Visor de dibujos (modo libro)
+// ============================
+const modalVisor = document.getElementById('modalVisor');
+const imagenVisor = document.getElementById('imagenVisor');
+const contadorVisor = document.getElementById('contadorVisor');
+const botonCerrarVisor = document.getElementById('cerrarVisor');
+const botonVisorAnterior = document.getElementById('visorAnterior');
+const botonVisorSiguiente = document.getElementById('visorSiguiente');
+
+let visorIndex = 0;
+
+function abrirVisor(indice) {
+  visorIndex = indice;
+  actualizarVisor();
+  modalVisor.classList.remove('oculto');
+}
+
+function actualizarVisor() {
+  imagenVisor.src = dibujosOrdenados[visorIndex];
+  contadorVisor.textContent = (visorIndex + 1) + ' / ' + dibujosOrdenados.length;
+}
+
+botonVisorAnterior.addEventListener('click', function () {
+  if (visorIndex > 0) {
+    visorIndex--;
+    actualizarVisor();
+  }
+});
+
+botonVisorSiguiente.addEventListener('click', function () {
+  if (visorIndex < dibujosOrdenados.length - 1) {
+    visorIndex++;
+    actualizarVisor();
+  }
+});
+
+botonCerrarVisor.addEventListener('click', function () {
+  modalVisor.classList.add('oculto');
 });
 
 // ============================
