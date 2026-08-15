@@ -51,7 +51,6 @@ header h1 {
   align-items: flex-end;
 }
 
-/* Botón "mordida de dinosaurio" */
 .boton-subir {
   position: relative;
   display: inline-flex;
@@ -86,10 +85,9 @@ header h1 {
   animation-play-state: paused;
 }
 
-/* Variante para historietas: tono "fósil" ámbar */
-.boton-historieta {
-  background: linear-gradient(160deg, #C9A96A, #8B6914);
-  color: #1a1a1a;
+.boton-animacion {
+  background: linear-gradient(160deg, #FF6B35, #C1440E);
+  color: #FFDE59;
   font-size: 1.15rem;
   padding: 16px 28px 20px;
   animation-delay: 0.35s;
@@ -102,10 +100,18 @@ header h1 {
 
 main {
   padding: 40px 20px;
-  background-color: #1a1a1a;
+  background-image:
+    linear-gradient(to bottom, rgba(10,10,15,0.55), rgba(10,10,15,0.85)),
+    url('fondo-ciudad.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
 }
 
 .galeria {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-wrap: wrap;
   gap: 30px;
@@ -156,22 +162,63 @@ main {
     0 0 25px rgba(144, 238, 144, 0.6);
 }
 
-.tarjeta img {
+.tarjeta img,
+.tarjeta video {
   width: 100%;
   border-radius: 6px;
   border: 2px solid #C9A96A;
   display: block;
 }
 
-.tarjeta-historieta {
+.tarjeta-clicable {
   cursor: pointer;
 }
 
-.badge-libro {
+.contenedor-video {
+  position: relative;
+}
+
+.burbuja {
+  position: relative;
+  background: #fff;
+  color: #1a1a1a;
+  font-family: 'Bangers', cursive;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  padding: 10px 14px;
+  border: 3px solid #1a1a1a;
+  border-radius: 16px;
+  margin-bottom: 8px;
+  text-align: center;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.4);
+}
+
+.burbuja::after {
+  content: "";
+  position: absolute;
+  left: 30px;
+  bottom: -14px;
+  border: 10px solid transparent;
+  border-top-color: #1a1a1a;
+  border-bottom: 0;
+}
+
+.burbuja::before {
+  content: "";
+  position: absolute;
+  left: 33px;
+  bottom: -10px;
+  border: 8px solid transparent;
+  border-top-color: #fff;
+  border-bottom: 0;
+  z-index: 1;
+}
+
+.badge-animacion {
   position: absolute;
   top: -10px;
   left: -10px;
-  background: #C9A96A;
+  background: #FF6B35;
   border: 3px solid #1a1a1a;
   border-radius: 50%;
   width: 34px;
@@ -184,7 +231,6 @@ main {
   z-index: 5;
 }
 
-/* Botón eliminar */
 .btn-eliminar {
   position: absolute;
   top: -12px;
@@ -210,7 +256,6 @@ main {
   transform: scale(1.15) rotate(10deg);
 }
 
-/* Modo libro (modal) */
 .modal-libro {
   position: fixed;
   top: 0;
@@ -222,6 +267,7 @@ main {
   align-items: center;
   justify-content: center;
   z-index: 50;
+  padding: 20px;
 }
 
 .modal-libro.oculto {
@@ -242,16 +288,9 @@ main {
   gap: 15px;
 }
 
-#tituloLibro {
-  font-family: 'Bangers', cursive;
-  color: #FFDE59;
-  letter-spacing: 1px;
-  text-shadow: 2px 2px 0 #000;
-}
-
-#paginaActual {
+#imagenVisor {
   max-width: 100%;
-  max-height: 60vh;
+  max-height: 65vh;
   border-radius: 8px;
   border: 3px solid #C9A96A;
 }
@@ -328,6 +367,10 @@ main {
 
   .libro-contenedor {
     padding: 20px;
+  }
+
+  main {
+    background-attachment: scroll;
   }
 }
 
