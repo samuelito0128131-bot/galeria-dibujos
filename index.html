@@ -2,41 +2,49 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>La Galería de Dibujos</title>
+  <title>Samu Arts</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="estilos.css">
 </head>
-<body><div class="decoracion">
-    <span class="flotante" style="top: 10%; left: 5%;">✏️</span>
-    <span class="flotante" style="top: 20%; right: 8%;">🖌️</span>
-    <span class="flotante" style="top: 60%; left: 3%;">⭐</span>
-    <span class="flotante" style="top: 70%; right: 5%;">🌈</span>
-    <span class="flotante" style="top: 40%; left: 90%;">🎨</span>
-  </div>
+<body>
 
   <header>
-    <h1>🎨 La Galería de Dibujos</h1>
-    <p>¡Aquí guardo mis mejores creaciones!</p>
+    <img src="hero.png" alt="Samu Arts" class="imagen-hero">
+    <div class="contenido-header">
+      <h1>¡Aquí guardo mis mejores creaciones!</h1>
+      <div class="botones-subir">
+        <label for="subirImagen" class="boton-subir">🦖 Subir un dibujo</label>
+        <input type="file" id="subirImagen" accept="image/*" multiple hidden>
+
+        <label for="subirHistorieta" class="boton-subir boton-historieta">📖 Subir historieta</label>
+        <input type="file" id="subirHistorieta" accept="image/*" multiple hidden>
+      </div>
+    </div>
   </header>
 
   <main>
-    <div class="subir-contenedor">
-      <label for="subirImagen" class="boton-subir">📤 Subir un dibujo</label>
-      <input type="file" id="subirImagen" accept="image/*" multiple hidden>
-    </div>
-
     <div class="galeria" id="galeria">
-      <!-- Aquí irán los dibujos -->
+      <!-- Aquí irán los dibujos e historietas -->
     </div>
-
-    <section class="serie-animada">
-      <h2>🎬 La Historia de Bruno</h2>
-
-      <div class="escena">
-        <div class="burbuja">Bueno, mi nombre es Bruno y esta es mi historia</div>
-        <video src="https://firebasestorage.googleapis.com/v0/b/samu-arts.firebasestorage.app/o/bruno-video.mp4?alt=media&token=906c1439-bebc-428a-97dd-f400e34ac4c9" autoplay loop muted playsinline></video>
-      </div>
-    </section>
   </main>
+
+  <!-- Modal del modo libro -->
+  <div id="modalLibro" class="modal-libro oculto">
+    <div class="libro-contenedor">
+      <button id="cerrarLibro" class="cerrar-libro">✖</button>
+      <h2 id="tituloLibro"></h2>
+      <img id="paginaActual" src="" alt="Página de la historieta">
+      <div class="controles-libro">
+        <button id="paginaAnterior">◀</button>
+        <span id="contadorPaginas"></span>
+        <button id="paginaSiguiente">▶</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
   <script src="script.js"></script>
 </body>
